@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Shopping - O melhor shopping da Web</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h2 class="mb-4">O melhor produto para você </h2>
+        <div id="produto" class="row"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+   
+    <!-- Fetch data  -->
+    <script>
+        // A linha abaixo diz que assim que o "documento" (a página) for totalmente carregado, deve ser executada a função  
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            
+            // A linha abaixo apenas define o id do produto chamado. 
+            
+            const productId = 1;
+            
+            //Utilizando o método fetch para consumir a API
+            fetch(`https://fakestoreapi.com/products/${productId}`)
+                .then(response => response.json())
+                .then(data => displayProduct(data));
+        });
+
+        function displayProduct(product) {
+
+            // Escolho a div que será alimentada com o produto. 
+            const productContainer = document.getElementById('produto');
+
+            // Crio um div. 
+            // Criar != Adicionar. 
+            const card = document.createElement('div');
+
+            // Adiciono algumas classes do bootstrap
+            card.classList.add('col-md-6', 'mx-auto');
+
+            // Coloco todo o conteúdo vinda da API dentro da div que acabei de criar. 
+            //Você pode experimentar colocar alguns "console.log" para experimentar qual conteúdo está sendo recebido ou exibido. 
+            card.innerHTML = `
+                <div class="card">
+                    <img src="${product.image}" class="card-img-top" alt="${product.title}">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.title}</h5>
+                        <p class="card-text">${product.description}</p>
+                        <p class="card-text"><strong>$${product.price}</strong></p>
+                        <button class="btn btn-primary">Comprar</button>
+                    </div>
+                </div>
+            `;
+
+            //  Adicionar a div criada ao productContainer.
+            productContainer.appendChild(card);
+        }
+    </script>
+</body>
+</html>
